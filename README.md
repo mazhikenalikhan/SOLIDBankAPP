@@ -8,6 +8,7 @@ Simple application for Bank
 
  - Download jar file.
  - Run it.
+
 '''
 java -jar SOLIDBankApp-0.0.1-SNAPSHOT.jar
 '''
