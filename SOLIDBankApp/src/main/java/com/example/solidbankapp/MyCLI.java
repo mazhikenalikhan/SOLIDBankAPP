@@ -19,6 +19,13 @@ public class MyCLI implements CLIUI{
 
     @Override
     public AccountType requestAccountType() {
-        return new AccountType(scanner.nextLine());
+        AccountType accountType = AccountType.INCORRECT;
+        String request = this.scanner.nextLine();
+        switch (request) {
+            case "CHECKING" -> accountType = AccountType.CHECKING;
+            case "SAVING" -> accountType = AccountType.SAVING;
+            case "FIXED" -> accountType = AccountType.FIXED;
+        }
+        return accountType;
     }
 }

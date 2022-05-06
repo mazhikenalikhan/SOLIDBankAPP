@@ -37,7 +37,7 @@ public class MemoryAccountDAO implements AccountDAO{
     public List<Account> getClientAccountsByType(String clientID, AccountType accountType) {
         List<Account> clientAccountsByType = new ArrayList<Account>();
         for(Account i : this.accountList) {
-            if(i.getClientID().equals(clientID) && i.getAccountType().getType().equals(accountType.getType())) {
+            if(i.getClientID().equals(clientID) && i.getAccountType() == accountType) {
                 clientAccountsByType.add(i);
             }
         }
