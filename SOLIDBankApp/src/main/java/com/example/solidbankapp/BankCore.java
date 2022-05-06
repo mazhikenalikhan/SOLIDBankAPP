@@ -10,6 +10,10 @@ public class BankCore {
     }
 
    public void createNewAccount(AccountType accountType, String clientID) {
+        if(accountType == AccountType.INCORRECT){
+            System.out.println("Incorrect account type.");
+            return;
+        }
         this.accountCreation.create(accountType, this.id, clientID,  this.lastAccountNumber);
         incrementLastAccountNumber();
    }
