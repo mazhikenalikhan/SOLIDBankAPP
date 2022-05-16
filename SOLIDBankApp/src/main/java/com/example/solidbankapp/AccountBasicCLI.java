@@ -1,11 +1,9 @@
 package com.example.solidbankapp;
 
-import java.util.List;
-
 public class AccountBasicCLI {
-    private CreateAccountOperationUI createAccountOperationUI;
-    private BankCore bankCore;
-    private AccountListingService accountListing;
+    private final CreateAccountOperationUI createAccountOperationUI;
+    private final BankCore bankCore;
+    private final AccountListingService accountListing;
 
     public AccountBasicCLI(CreateAccountOperationUI createAccountOperationUI, BankCore bankCore, AccountListingService accountListing){
         this.accountListing = accountListing;

@@ -5,7 +5,7 @@ public class BankCore {
     private long lastAccountNumber = 1;
     private AccountCreationService accountCreation;
 
-    public BankCore(AccountCreationService accountCreation) {
+    BankCore(AccountCreationService accountCreation) {
         this.accountCreation = accountCreation;
     }
 
@@ -14,11 +14,11 @@ public class BankCore {
             System.out.println("Incorrect account type.");
             return;
         }
-        this.accountCreation.create(accountType, this.id, clientID,  this.lastAccountNumber);
+        accountCreation.create(accountType, id, clientID,  lastAccountNumber);
         incrementLastAccountNumber();
    }
 
    private void incrementLastAccountNumber(){
-        this.lastAccountNumber++;
+        lastAccountNumber++;
    }
 }

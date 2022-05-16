@@ -1,5 +1,10 @@
 package com.example.solidbankapp;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Account {
     private AccountType accountType;
     private String id;
@@ -7,21 +12,9 @@ public class Account {
     private double balance;
     private boolean withdrawAllowed;
 
-    public double getBalance() {
-        return this.balance;
-    }
-
     @Override
     public String toString() {
-        return "Account{, id=" + this.id + ", clientID=" + this.clientID + ", balance="+this.balance + "}";
-    }
-
-    public String getClientID() {
-        return this.clientID;
-    }
-
-    public void setClientID(String clientID) {
-        this.clientID = clientID;
+        return "Account{, id=" + id + ", clientID=" + clientID + ", balance=" + balance + "}";
     }
 
     public Account(AccountType accountType, String id, String clientID, double balance, boolean withdrawAllowed){
@@ -32,31 +25,4 @@ public class Account {
         this.withdrawAllowed = withdrawAllowed;
     }
 
-    public boolean isWithdrawAllowed(){
-        return this.withdrawAllowed;
-    }
-
-    public void setWithdrawAllowed(boolean withdrawAllowed){
-        this.withdrawAllowed = withdrawAllowed;
-    }
-
-    public AccountType getAccountType(){
-        return this.accountType;
-    }
-
-    public void setAccountType(AccountType accountType){
-        this.accountType = accountType;
-    }
-
-    public String getId(){
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 }

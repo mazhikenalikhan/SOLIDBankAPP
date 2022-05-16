@@ -3,57 +3,43 @@ package com.example.solidbankapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 @SpringBootApplication
-public class SolidBankAppApplication {
-    private static int nextInt(Scanner scanner){
-        while(!scanner.hasNextInt()) {
-            scanner.next();
-            System.out.println("Please enter integer:");
-        }
-        int res = scanner.nextInt();
-        if(res < 1 || res > 7) {
-            System.out.println("Please enter integer between 1 and 7");
-            return nextInt(scanner);
-        }
-        return res;
-    }
-    private static void helpMessage() throws FileNotFoundException {
-        File file = new File("/home/mazhiken.alikhan/IdeaProjects/SOLIDBankApp/src/main/java/com/example/solidbankapp/welcome.txt");
-        Scanner fileScan = new Scanner(file);
-        while(fileScan.hasNextLine()) {
-            System.out.println(fileScan.nextLine());
-        }
-        fileScan.close();
-    }
-    public static void main(String[] args) throws FileNotFoundException {
-        SpringApplication.run(SolidBankAppApplication.class, args);
-        ApplicationContext context = new ClassPathXmlApplicationContext("props.xml");
-        Scanner scanner = new Scanner(System.in);
-        AccountBasicCLI accountBasicCLI= (AccountBasicCLI) context.getBean("accountbasiccli");
-        helpMessage();
-        int request = nextInt(scanner);
-        while(request != 7) {
-            switch (request){
-                case 1 :
-                    accountBasicCLI.getAccounts("1");
-                    break;
-                case 2 :
-                    System.out.println("[CHECKING, SAVING, FIXED]");
-                    accountBasicCLI.createAccountRequest("1");
-                    break;
-                case 6 :
-                    helpMessage();
-                    break;
+@Component
+public class SolidBankAppApplication{
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        boolean running = true;
+        String clientID = "1";
+        MyCLI myCLI = context.getBean(MyCLI.class);
+        AccountBasicCLI accountBasicCLI = context.getBean(AccountBasicCLI.class);
+        TransactionDepositCLI transactionDepositCLI = context.getBean(TransactionDepositCLI.class);
+        TransactionWithdrawCLI transactionWithdrawCLI = context.getBean(TransactionWithdrawCLI.class);
+        String helpMessage = "1 - show accounts\n2 - create account\n3 - deposit\n4 - withdraw\n5 - transfer\n6 - this message\n7 - exit \n";
+        System.out.print("Welcome to CLI bank service \n");
+        System.out.print("Enter operation number: \n");
+        System.out.print(helpMessage);
+        Scanner scanner = myCLI.getScanner();
+        while(running){
+            String req = scanner.nextLine();
+            System.out.println(req);
+            switch (req) {
+                case "1" -> accountBasicCLI.getAccounts(clientID);
+                case "2" -> accountBasicCLI.createAccountRequest(clientID);
+                case "3" -> transactionDepositCLI.depositMoney(clientID);
+                case "4" -> transactionWithdrawCLI.withdrawMoney(clientID);
+                case "6" -> System.out.printf(helpMessage);
+                case "7" -> {
+                    System.out.print("Application Closed\n");
+                    running = false;
+                }
+                default -> System.out.print("Command not recognized!\n");
             }
-            request = nextInt(scanner);
         }
-
+        scanner.close();
     }
-
 }

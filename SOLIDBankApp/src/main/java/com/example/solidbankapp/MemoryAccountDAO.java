@@ -12,7 +12,7 @@ public class MemoryAccountDAO implements AccountDAO{
     @Override
     public List<Account> getClientAccounts(String clientID) {
         List<Account> clientAccounts = new ArrayList<Account>();
-        for(Account i : this.accountList) {
+        for(Account i : accountList) {
             if(i.getClientID().equals(clientID)) {
                 clientAccounts.add(i);
             }
@@ -24,7 +24,7 @@ public class MemoryAccountDAO implements AccountDAO{
     public void createNewAccount(Account account) {
         if(account != null){
             System.out.println("Success");
-            this.accountList.add(account);
+            accountList.add(account);
         }
         else System.out.println("Operation failed");
     }
@@ -36,7 +36,7 @@ public class MemoryAccountDAO implements AccountDAO{
     @Override
     public List<Account> getClientAccountsByType(String clientID, AccountType accountType) {
         List<Account> clientAccountsByType = new ArrayList<Account>();
-        for(Account i : this.accountList) {
+        for(Account i : accountList) {
             if(i.getClientID().equals(clientID) && i.getAccountType() == accountType) {
                 clientAccountsByType.add(i);
             }
@@ -46,7 +46,7 @@ public class MemoryAccountDAO implements AccountDAO{
 
     @Override
     public AccountWithdraw getClientWithdrawAccount(String clientID, String accountID) {
-        for(Account i : this.accountList) {
+        for(Account i : accountList) {
             if(i.getClientID().equals(clientID) && i.getId().equals(accountID) && i.isWithdrawAllowed()) {
                 return (AccountWithdraw) i;
             }
@@ -56,7 +56,7 @@ public class MemoryAccountDAO implements AccountDAO{
 
     @Override
     public Account getClientAccount(String clientID, String accountID) {
-        for(Account i : this.accountList) {
+        for(Account i : accountList) {
             if(i.getClientID().equals(clientID) && i.getId().equals(accountID)) {
                 return i;
             }

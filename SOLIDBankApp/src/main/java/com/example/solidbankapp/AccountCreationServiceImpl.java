@@ -1,7 +1,7 @@
 package com.example.solidbankapp;
 
 public class AccountCreationServiceImpl implements AccountCreationService{
-    private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
 
     public AccountCreationServiceImpl(AccountDAO accountDAO){
         this.accountDAO = accountDAO;
