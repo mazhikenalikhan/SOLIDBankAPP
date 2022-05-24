@@ -1,18 +1,19 @@
 package com.example.solidbankapp;
 
-import org.springframework.boot.SpringApplication;
+import com.example.solidbankapp.Account.AccountBasicCLI;
+import com.example.solidbankapp.Config.ApplicationConfig;
+import com.example.solidbankapp.Transactions.Deposit.TransactionDepositCLI;
+import com.example.solidbankapp.Transactions.Withdraw.TransactionWithdrawCLI;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 @SpringBootApplication
-@Component
 public class SolidBankAppApplication{
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        ApplicationContext context= new AnnotationConfigApplicationContext(ApplicationConfig.class);
         boolean running = true;
         String clientID = "1";
         MyCLI myCLI = context.getBean(MyCLI.class);

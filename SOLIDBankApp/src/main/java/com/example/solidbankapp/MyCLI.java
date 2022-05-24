@@ -1,18 +1,17 @@
 package com.example.solidbankapp;
 
+import com.example.solidbankapp.Account.Accounts.AccountType;
+import com.example.solidbankapp.Account.CLIUI;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Scanner;
 
-
-public class MyCLI implements CLIUI{
+@Getter
+@Setter
+public class MyCLI implements CLIUI {
     private final Scanner scanner;
 
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    MyCLI(String scanner){
-        this.scanner = new Scanner(scanner);
-    }
     public MyCLI() {
         this.scanner = new Scanner(System.in);
     }

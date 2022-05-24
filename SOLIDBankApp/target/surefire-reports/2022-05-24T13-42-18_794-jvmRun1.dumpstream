@@ -1,0 +1,13 @@
+# Created at 2022-05-24T13:43:39.063
+[SUREFIRE] std/in stream corrupted: first sequence not recognized
+
+# Created at 2022-05-24T13:46:20.795
+Unexpected IOException with stream: Command not recognized!
+
+
+# Created at 2022-05-24T13:46:20.797
+Unexpected IOException with stream: 2022-05-24 13:46:20.797  INFO 185053 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+
+
