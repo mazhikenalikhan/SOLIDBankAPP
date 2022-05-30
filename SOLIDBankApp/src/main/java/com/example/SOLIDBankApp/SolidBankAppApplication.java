@@ -1,10 +1,8 @@
 package com.example.SOLIDBankApp;
 
 import com.example.SOLIDBankApp.Account.AccountBasicCLI;
-import com.example.SOLIDBankApp.Account.Services.AccountDataService;
 import com.example.SOLIDBankApp.Transactions.Deposit.TransactionDepositCLI;
 import com.example.SOLIDBankApp.Transactions.Withdraw.TransactionWithdrawCLI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,12 +11,13 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class SolidBankAppApplication implements CommandLineRunner {
-	@Autowired
-	private ApplicationContext context;
-	@Autowired
-	private AccountDataService accountDataService;
+	private final ApplicationContext context;
 
-	public static void main(String[] args) {
+	public SolidBankAppApplication(ApplicationContext context) {
+		this.context = context;
+	}
+
+	public static void main(String[] args)throws Exception {
 		SpringApplication.run(SolidBankAppApplication.class, args);
 	}
 
@@ -33,40 +32,21 @@ public class SolidBankAppApplication implements CommandLineRunner {
 		TransactionWithdrawCLI transactionWithdrawCLI = context.getBean(TransactionWithdrawCLI.class);
 
 		String helpMessage = "1 - show accounts\n2 - create account\n3 - deposit\n4 - withdraw\n5 - transfer\n6 - this message\n7 - exit\n";
-		System.out.printf("Welcome to CLI bank service\n");
-		System.out.printf("Enter operation number: \n");
-		System.out.printf(helpMessage);
+		System.out.print("Welcome to CLI bank service\n");
+		System.out.print("Enter operation number: \n");
+		System.out.print(helpMessage);
 		while(running){
-			switch(myCLI.getScanner().nextLine()){
-
-				case "1":
-					accountBasicCLI.getAccounts(clientID);
-					break;
-
-				case "2":
-					accountBasicCLI.createAccountRequest(clientID);
-					break;
-
-				case "3":
-					transactionDepositCLI.depositMoney(clientID);
-					break;
-
-				case "4":
-					transactionWithdrawCLI.withdrawMoney(clientID);
-					break;
-
-				case "6":
-					System.out.printf(helpMessage);
-					break;
-
-				case "7":
-					System.out.printf("Application Closed\n");
+			switch (myCLI.getScanner().nextLine()) {
+				case "1" -> accountBasicCLI.getAccounts(clientID);
+				case "2" -> accountBasicCLI.createAccountRequest(clientID);
+				case "3" -> transactionDepositCLI.depositMoney(clientID);
+				case "4" -> transactionWithdrawCLI.withdrawMoney(clientID);
+				case "6" -> System.out.print(helpMessage);
+				case "7" -> {
+					System.out.print("Application Closed\n");
 					running = false;
-					break;
-
-				default:
-					System.out.printf("Command not recognized!\n");
-					break;
+				}
+				default -> System.out.print("Command not recognized!\n");
 			}
 		}
 		myCLI.getScanner().close();
