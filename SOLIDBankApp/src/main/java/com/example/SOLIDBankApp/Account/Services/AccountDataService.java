@@ -3,7 +3,6 @@ package com.example.SOLIDBankApp.Account.Services;
 import com.example.SOLIDBankApp.Account.Accounts.Account;
 import com.example.SOLIDBankApp.Account.Accounts.AccountType;
 import com.example.SOLIDBankApp.Account.DAO.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +10,12 @@ import java.util.List;
 
 @Service
 public class AccountDataService {
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+
+    public AccountDataService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
     @Transactional
     public void createNewAccount(Account account){
         System.out.println("Success");
