@@ -17,7 +17,7 @@ public class SolidBankAppApplication implements CommandLineRunner {
 		this.context = context;
 	}
 
-	public static void main(String[] args)throws Exception {
+	public static void main(String[] args) {
 		SpringApplication.run(SolidBankAppApplication.class, args);
 	}
 

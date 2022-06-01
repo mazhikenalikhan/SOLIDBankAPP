@@ -36,7 +36,7 @@ public class MyCLI implements CLIUI {
     @Override
     public AccountType requestAccountType() {
         System.out.println("[CHECKING, FIXED, SAVING]");
-        AccountType accountType = AccountType.INCORRECT;
+        AccountType accountType = null;
         String request;
         request = scanner.nextLine();
         switch (request) {

@@ -2,6 +2,7 @@ package com.example.SOLIDBankApp.Transactions.Deposit;
 
 import com.example.SOLIDBankApp.Account.Accounts.Account;
 import com.example.SOLIDBankApp.Account.Listing.AccountListingService;
+import com.example.SOLIDBankApp.Exceptions.NegativeAmount;
 import com.example.SOLIDBankApp.Transactions.WithdrawDepositOperationCLIUI;
 
 public class TransactionDepositCLI {
@@ -23,6 +24,10 @@ public class TransactionDepositCLI {
             return;
         }
         double amount = withdrawDepositOperationCLIUI.requestClientAmount();
-        transactionDeposit.execute(account, amount);
+        try {
+            transactionDeposit.execute(account, amount);
+        } catch (NegativeAmount e) {
+            throw new RuntimeException(e);
+        }
     }
 }

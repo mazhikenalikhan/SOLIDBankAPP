@@ -17,4 +17,10 @@ public interface TransactionDAO extends CrudRepository<Transaction, String> {
 
     @Query("SELECT * FROM TRANSACTIONS;")
     List<Transaction> getTransactions();
+    @Query("SELECT * FROM TRANSACTIONS WHERE ACCOUNT_ID = :1;")
+    List<Transaction> getAccountTransactions(@Param("1") String AccountID);
+
+    @Modifying
+    @Query(value ="DELETE FROM TRANSACTIONS WHERE ACCOUNT_ID = :1;")
+    void deleteByAccountID(@Param("1") String account_id);
 }

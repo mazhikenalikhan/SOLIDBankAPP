@@ -1,6 +1,5 @@
 package com.example.SOLIDBankApp.Transactions;
 
-import com.example.SOLIDBankApp.Account.Accounts.Account;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -16,9 +15,4 @@ public class Transaction {
     private String ACCOUNT_ID;
     private double AMOUNT;
 
-    public Transaction(String id, Account account, double amount){
-        this.ID = id;
-        this.ACCOUNT_ID = account.getAccountID();
-        this.AMOUNT = amount;
-    }
 }
