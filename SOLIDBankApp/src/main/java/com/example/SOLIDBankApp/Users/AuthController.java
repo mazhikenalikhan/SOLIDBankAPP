@@ -12,6 +12,8 @@ public class AuthController {
     private final UserService userService;
     private final JwtProvider jwtProvider;
 
+    private String token;
+
     public AuthController(UserService userService, JwtProvider jwtProvider) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
@@ -32,6 +34,15 @@ public class AuthController {
         User user = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
         if(user == null) return null;
         String token = jwtProvider.generateToken(user.getLogin(), user.getID());
+        this.token = token;
+        return new AuthResponse(token);
+    }
+    @PostMapping("/token")
+    public AuthResponse token(@RequestBody AuthRequest request) {
+        User user = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
+        if(user == null) return null;
+        String token = jwtProvider.generateToken(user.getLogin(), user.getID());
+        this.token = token;
         return new AuthResponse(token);
     }
 }

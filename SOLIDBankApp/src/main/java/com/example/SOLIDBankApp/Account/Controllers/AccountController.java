@@ -88,4 +88,17 @@ public class AccountController {
         }
         return transactionDataService.getAccountTransactions(account_id);
     }
+
+    @PostMapping("/{account_id}/transfer")
+    public void transfer(@PathVariable String account_id, @RequestParam double amount, @RequestHeader("Authorization") String request, @RequestBody String destination_account_id){
+        try {
+            String clientID = getClientID(request);
+            Account desAccount = getAccount(destination_account_id, request);
+            Account originalAccount = getAccount(account_id, request);
+            transactionWithdraw.execute(originalAccount, amount);
+            transactionDeposit.execute(desAccount, amount);
+        } catch (NegativeAmount | NotEnoughMoney | AccountNotFound e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
