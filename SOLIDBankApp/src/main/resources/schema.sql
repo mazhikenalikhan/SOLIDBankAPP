@@ -14,3 +14,12 @@ CREATE TABLE TRANSACTIONS
     AMOUNT DOUBLE,
     CONSTRAINT PK_TRANSACTIONS PRIMARY KEY  (ID)
 );
+create table USERS
+(
+    id       serial not null
+        constraint user_table_pk
+            primary key,
+    login    varchar(50),
+    password varchar(500),
+    role varchar(50)
+);

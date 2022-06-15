@@ -9,74 +9,80 @@ import com.example.SOLIDBankApp.Transactions.Deposit.TransactionDeposit;
 import com.example.SOLIDBankApp.Transactions.Service.TransactionDataService;
 import com.example.SOLIDBankApp.Transactions.Transaction;
 import com.example.SOLIDBankApp.Transactions.Withdraw.TransactionWithdraw;
+import com.example.SOLIDBankApp.Users.JwtFilter;
+import com.example.SOLIDBankApp.Users.JwtProvider;
+import com.example.SOLIDBankApp.Users.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("{clientID}/accounts")
+@RequestMapping("/accounts")
+@SecurityRequirement(name = "basicauth")
+@AllArgsConstructor
 public class AccountController {
+
+    private final JwtProvider jwtProvider;
+    private final UserService userService;
+    private final JwtFilter jwtFilter;
     private final AccountDataService accountDataService;
     private final TransactionWithdraw transactionWithdraw;
     private final TransactionDeposit transactionDeposit;
     private final TransactionDataService transactionDataService;
     private final BankCore bankCore;
 
-    public AccountController(AccountDataService accountDataService, TransactionWithdraw transactionWithdraw, TransactionDeposit transactionDeposit, TransactionDataService transactionDataService, BankCore bankCore) {
-        this.accountDataService = accountDataService;
-        this.transactionWithdraw = transactionWithdraw;
-        this.transactionDeposit = transactionDeposit;
-        this.transactionDataService = transactionDataService;
-        this.bankCore = bankCore;
+    private String getClientID(String request){
+        System.out.println(request);
+        return jwtProvider.getIDFromToken(request.substring(7));
     }
-
     @GetMapping
-    public List<Account> getAccounts(@PathVariable String clientID){
-        return accountDataService.getClientAccounts(clientID);
+    public List<Account> getAccounts(@RequestHeader("Authorization") String request){
+        return accountDataService.getClientAccounts(getClientID(request));
     }
-
     @PostMapping
-    public void createAccount(@RequestParam AccountType accountType, @PathVariable String clientID){
-        bankCore.createNewAccount(accountType, clientID);
+    public void createAccount(@RequestParam AccountType accountType,@RequestHeader("Authorization") String request){
+        bankCore.createNewAccount(accountType, getClientID(request));
     }
 
     @GetMapping("/{account_id}")
-    public Account getAccount(@PathVariable String clientID, @PathVariable String account_id)    {
+    public Account getAccount(@PathVariable String account_id, @RequestHeader("Authorization") String request)    {
         try {
-            return accountDataService.getClientAccount(clientID, account_id);
+            return accountDataService.getClientAccount(getClientID(request), account_id);
         } catch (AccountNotFound e) {
             throw new RuntimeException(e);
         }
     }
     @DeleteMapping("/{account_id}")
-    public void deleteAccount(@PathVariable String clientID, @PathVariable String account_id){
+    public void deleteAccount(@PathVariable String account_id, @RequestHeader("Authorization") String request){
         try {
-            accountDataService.delete(clientID, account_id);
+            accountDataService.delete(getClientID(request), account_id);
             transactionDataService.delete(account_id);
         } catch (AccountNotFound | ClientNotFound e) {
             throw new RuntimeException(e);
         }
     }
     @PostMapping("/{account_id}/withdraw")
-    public void withdraw(@PathVariable String account_id, @RequestParam double amount, @PathVariable String clientID){
+    public void withdraw(@PathVariable String account_id, @RequestParam double amount, @RequestHeader("Authorization") String request){
         try {
-            transactionWithdraw.execute(accountDataService.getClientWithdrawAccount(clientID, account_id), amount);
+            transactionWithdraw.execute(accountDataService.getClientWithdrawAccount(getClientID(request), account_id), amount);
         } catch (NotEnoughMoney | NegativeAmount | AccountNotWithdraw | AccountNotFound e) {
             throw new RuntimeException(e);
         }
     }
     @PostMapping("/{account_id}/deposit")
-    public void deposit(@PathVariable String account_id, @RequestParam double amount, @PathVariable String clientID){
+    public void deposit(@PathVariable String account_id, @RequestParam double amount, @RequestHeader("Authorization") String request){
         try {
-            transactionDeposit.execute(getAccount(clientID, account_id), amount);
+            transactionDeposit.execute(getAccount(account_id, request), amount);
         } catch (NegativeAmount e) {
             throw new RuntimeException(e);
         }
     }
     @GetMapping("/{account_id}/transactions")
-    public List<Transaction> getTransactions(@PathVariable String clientID, @PathVariable String account_id){
+    public List<Transaction> getTransactions(@PathVariable String account_id, @RequestHeader("Authorization") String request){
         try{
-            accountDataService.getClientAccount(clientID, account_id);
+            accountDataService.getClientAccount(getClientID(request), account_id);
         } catch (AccountNotFound e) {
             throw new RuntimeException(e);
         }

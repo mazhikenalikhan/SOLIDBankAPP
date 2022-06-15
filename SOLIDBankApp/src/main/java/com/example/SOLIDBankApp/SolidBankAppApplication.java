@@ -3,13 +3,15 @@ package com.example.SOLIDBankApp;
 import com.example.SOLIDBankApp.Account.AccountBasicCLI;
 import com.example.SOLIDBankApp.Transactions.Deposit.TransactionDepositCLI;
 import com.example.SOLIDBankApp.Transactions.Withdraw.TransactionWithdrawCLI;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-
-
 @SpringBootApplication
+@SecurityScheme(name = "basicauth", scheme = "bearer", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER, bearerFormat = "JWT")
 public class SolidBankAppApplication implements CommandLineRunner {
 	private final ApplicationContext context;
 

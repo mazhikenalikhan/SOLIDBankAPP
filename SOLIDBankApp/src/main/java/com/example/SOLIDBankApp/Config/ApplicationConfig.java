@@ -27,6 +27,9 @@ public class ApplicationConfig {
     }
 
     @Bean
+    String clientID(){return "1";}
+
+    @Bean
     AccountListingService accountListingServiceBean(){
         return new AccountListingServiceImpl();
     }
